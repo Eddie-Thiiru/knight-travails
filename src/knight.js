@@ -63,7 +63,7 @@ const getLegalMoves = ([x, y]) => {
 function isArrayInArray(source, search) {
   var searchLen = search.length;
   for (var i = 0, len = source.length; i < len; i++) {
-    // skip not same length
+    // skip if not same length
     if (source[i].length != searchLen) continue;
     // compare each element
     for (var j = 0; j < searchLen; j++) {
@@ -81,16 +81,16 @@ function isArrayInArray(source, search) {
 const shortestPath = (start, end, predecessors) => {
   const path = [];
 
-  path.push(start);
+  path.push(end);
 
-  let u = predecessors[start];
+  let u = predecessors[end];
 
-  while (u !== end) {
+  while (u !== start) {
     path.push(u);
     u = predecessors[u];
   }
 
-  path.push(end);
+  path.push(start);
 
   let route = path.reverse();
 
@@ -115,7 +115,7 @@ const knightMoves = (start, end) => {
     let current = queue.shift();
 
     if (current[0] === end[0] && current[1] === end[1]) {
-      shortestPath(end, start, predecessors);
+      shortestPath(start, end, predecessors);
 
       return;
     } else {
