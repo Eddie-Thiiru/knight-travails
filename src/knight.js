@@ -11,6 +11,7 @@ const addVertex = () => {
   for (let i = 0; i < 8; i++) {
     for (let j = 0; j < 8; j++) {
       let vertex = [i, j];
+
       graph.vertices.push(vertex);
 
       // Adds associative empty array
@@ -23,11 +24,11 @@ const addEdge = () => {
   let array = graph.vertices;
 
   for (let i = 0; i < array.length; i++) {
-    const vertex1 = array[i];
-    const validMoves = getLegalMoves(vertex1);
+    let vertex1 = array[i];
+    let validMoves = getLegalMoves(vertex1);
 
     for (let i = 0; i < validMoves.length; i++) {
-      const vertex2 = validMoves[i];
+      let vertex2 = validMoves[i];
 
       graph.edges[vertex1].push(vertex2);
     }
@@ -60,23 +61,24 @@ const getLegalMoves = ([x, y]) => {
   return validMoves;
 };
 
-function isArrayInArray(source, search) {
-  var searchLen = search.length;
-  for (var i = 0, len = source.length; i < len; i++) {
+const isArrayInArray = (source, search) => {
+  let searchLen = search.length;
+
+  for (let i = 0; i < source.length; i++) {
     // skip if not same length
-    if (source[i].length != searchLen) continue;
+    if (source[i].length !== searchLen) continue;
     // compare each element
-    for (var j = 0; j < searchLen; j++) {
+    for (let j = 0; j < searchLen; j++) {
       // if a pair doesn't match skip forwards
       if (source[i][j] !== search[j]) {
         break;
-      } else if (j == searchLen - 1) {
+      } else if (j === searchLen - 1) {
         return true;
       }
     }
   }
   return false;
-}
+};
 
 const shortestPath = (start, end, predecessors) => {
   const path = [];
@@ -84,10 +86,12 @@ const shortestPath = (start, end, predecessors) => {
   path.push(end);
 
   let u = predecessors[end];
+  let arrayEqual = u[0] === start[0] && u[1] === start[1] ? true : false;
 
-  while (u !== start) {
+  while (arrayEqual === false) {
     path.push(u);
     u = predecessors[u];
+    arrayEqual = u[0] === start[0] && u[1] === start[1] ? true : false;
   }
 
   path.push(start);
@@ -119,11 +123,11 @@ const knightMoves = (start, end) => {
 
       return;
     } else {
-      const adjList = graph.edges[current];
+      let adjList = graph.edges[current];
 
       for (let i = 0; i < adjList.length; i++) {
-        const element = adjList[i];
-        const itemVisited = isArrayInArray(visited, element);
+        let element = adjList[i];
+        let itemVisited = isArrayInArray(visited, element);
 
         if (itemVisited === false) {
           visited.push(element);
